@@ -298,7 +298,7 @@ void main()
     
     cout << time << endl;
     */
-
+    /*
     int key;
     while (true)
     {
@@ -393,7 +393,6 @@ void main()
                 cin >> str2 >> col2;
                 M2.MatrixResize(str2, col2);
                 break;
-                break;
             default:
                 cout << "Incorrect action number" << endl;
                 break;
@@ -406,6 +405,34 @@ void main()
         case 5:
             M3.MatrixResize(str1, col2);
             M3.MatrMinusMatr(M1, M2);
+            break;
+        case 6:
+            int key_val_mul;
+            long int value;
+
+            cout << "0 - Return" << endl << "1 - First matrix" << endl << "2 - Second matrix" << endl;
+            cout << "Enter the action: ";
+            cin >> key_val_mul;
+            cout << endl;
+
+            switch (key_val_mul)
+            {
+            case 0:
+                break;
+            case 1:
+                cout << "Enter value: ";
+                cin >> value;
+                M1.MatrMulVal(value);
+                break;
+            case 2:
+                cout << "Enter value: ";
+                cin >> value;
+                M2.MatrMulVal(value);
+                break;
+            default:
+                cout << "Incorrect action number" << endl;
+                break;
+            }
             break;
         case 9:
             int key_print;
@@ -443,5 +470,5 @@ void main()
             cout << "Incorrect action number" << endl;
             break;
         }
-    }
+    }*/
 }
