@@ -57,6 +57,21 @@ public:
                 M[i][j] = 0;
     }
     
+    void MatrixResize(unsigned int str_new, unsigned int col_new)
+    {
+        str = str_new;
+        col = col_new;
+
+        M = (T**) new T * [str];
+
+        for (int i = 0; i < str; i++)
+            M[i] = (T*)new T * [col];
+
+        for (int i = 0; i < str; i++)
+            for (int j = 0; j < col; j++)
+                M[i][j] = 0;
+    }
+
     T GetMij(unsigned int i, unsigned int j)
     {
         if ((i > str) || (j > col))
@@ -251,6 +266,7 @@ void main()
     MATRIX<long int> M2(str2, col2);
     MATRIX<long int> M3(str1, col2);
     
+    /*
     cout << "Enter seed for first matrix:";
     cin >> seed;
     
@@ -262,23 +278,170 @@ void main()
 
     M2.RandVal(seed);
     
-    /*
+    
     cin.ignore();
     cin.getline(Line, 100);
     M1.FillMatr(Line);
     cin.getline(Line, 100);
     M2.FillMatr(Line);
-    */
+    
 
     start = clock();
     M3.MatrMulMatr(M1, M2);
     time = clock() - start;
     
-    /*
+    
     M1.Print("M1");
     M2.Print("M2");
     M3.Print("M3");
-    */
+    
     
     cout << time << endl;
+    */
+
+    int key;
+    while (true)
+    {
+        cout << endl;
+        cout << "0 - Exit" << endl << "1 - Fill matrix by random value" << endl << "2 - Fill matrix by your value" << endl;
+        cout << "3 - Matrix resize" << endl << "4 - Matrix plus matrix" << endl << "5 - Matrix minus matrix" << endl;
+        cout << "6 - Matrix multiply by value" << endl << "7 - Matrix multiply by matrix" << endl << "8 - Submatix" << endl << "9 - Print matrix" << endl;
+        cout << "Enter the action: ";
+        cin >> key;
+        cout << endl;
+
+        switch (key)
+        {
+        case 0:
+            return;
+            break;
+        case 1:
+            int key_random_fill;
+            
+            cout << "0 - Return" << endl << "1 - First matrix" << endl << "2 - Second matrix" << endl;
+            cout << "Enter the action: ";
+            cin >> key_random_fill;
+            cout << endl;
+
+            switch (key_random_fill)
+            {
+            case 0:
+                break;
+            case 1:
+                cout << "Enter seed for first matrix: ";
+                cin >> seed;
+                M1.RandVal(seed);
+                break;
+            case 2:
+                cout << "Enter seed for second matrix: ";
+                cin >> seed;
+                M2.RandVal(seed);
+                break;
+            default:
+                cout << "Incorrect action number" << endl;
+                break;
+            }
+            break;
+        case 2:
+            int key_line_fill;
+
+            cout << "0 - Return" << endl << "1 - First matrix" << endl << "2 - Second matrix" << endl;
+            cout << "Enter the action: ";
+            cin >> key_line_fill;
+            cout << endl;
+
+            switch (key_line_fill)
+            {
+            case 0:
+                break;
+            case 1:
+                cout << "Enter values in line for first matrix: ";
+                cin.ignore();
+                cin.getline(Line, 100);
+                M1.FillMatr(Line);
+                break;
+            case 2:
+                cout << "Enter values in line for second matrix: ";
+                cin.ignore();
+                cin.getline(Line, 100);
+                M2.FillMatr(Line);
+                break;
+            default:
+                cout << "Incorrect action number" << endl;
+                break;
+            }
+            break;
+        case 3:
+            int key_resize;
+
+            cout << "0 - Return" << endl << "1 - First matrix" << endl << "2 - Second matrix" << endl;
+            cout << "Enter the action: ";
+            cin >> key_resize;
+            cout << endl;
+
+            switch (key_resize)
+            {
+            case 0:
+                break;
+            case 1:
+                cout << "Enter new sizes for first matrix: ";
+                cin >> str1 >> col1;
+                M1.MatrixResize(str1, col1);
+                break;
+            case 2:
+                cout << "Enter new sizes for second matrix: ";
+                cin >> str2 >> col2;
+                M2.MatrixResize(str2, col2);
+                break;
+                break;
+            default:
+                cout << "Incorrect action number" << endl;
+                break;
+            }
+            break;
+        case 4:
+            M3.MatrixResize(str1, col2);
+            M3.MatrPlusMatr(M1, M2);
+            break;
+        case 5:
+            M3.MatrixResize(str1, col2);
+            M3.MatrMinusMatr(M1, M2);
+            break;
+        case 9:
+            int key_print;
+
+            cout << "0 - Return" << endl << "1 - Print first matrix" << endl << "2 - Print second matrix" << endl << "3 - Print result matrix" << endl << "4 - Print all matrix" << endl;
+            cout << "Enter the action: ";
+            cin >> key_print;
+            cout << endl;
+
+            switch (key_print)
+            {
+            case 0:
+                break;
+            case 1:
+                M1.Print("M1");
+                break;
+            case 2:
+                M2.Print("M2");
+                break;
+            case 3:
+                M3.Print("M3");
+                break;
+            case 4:
+                M1.Print("M1");
+                M2.Print("M2");
+                M3.Print("M3");
+                break;
+            default:
+                cout << "Incorrect action number" << endl;
+                break;
+            }
+            break;
+            break;
+        default:
+            cout << "Incorrect action number" << endl;
+            break;
+        }
+    }
 }
