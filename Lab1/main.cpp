@@ -251,7 +251,6 @@ void main()
     MATRIX<long int> M2(str2, col2);
     MATRIX<long int> M3(str1, col2);
     
-    /*
     cout << "Enter seed for first matrix:";
     cin >> seed;
     
@@ -262,23 +261,24 @@ void main()
     cout << endl;
 
     M2.RandVal(seed);
-    */
     
+    /*
     cin.ignore();
     cin.getline(Line, 100);
     M1.FillMatr(Line);
     cin.getline(Line, 100);
     M2.FillMatr(Line);
-    
-    M1.Print("M1");
-    M2.Print("M2");
-    
+    */
+
     start = clock();
     M3.MatrMulMatr(M1, M2);
     time = clock() - start;
     
+    /*
+    M1.Print("M1");
+    M2.Print("M2");
     M3.Print("M3");
-
-    cout << time << endl;
+    */
     
+    cout << time << endl;
 }
