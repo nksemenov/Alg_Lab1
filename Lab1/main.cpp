@@ -75,22 +75,20 @@ public:
     T GetMij(unsigned int i, unsigned int j)
     {
         if ((i > str) || (j > col))
+        {
+            cout << "GetMij: incorrect indexes" << endl;
             return 0;
-
-        if ((str > 0) && (col > 0))
-            return M[i][j];
-        else
-            return 0;
+        }
+        return M[i][j];
     }
 
     void SetMij(unsigned int i, unsigned int j, T value)
     {
-        if ((i < 0) || (i >= str))
+        if ((i > str) || (j > col))
+        {
+            cout << "SetMij: incorrect indexes" << endl;
             return;
-
-        if ((j < 0) || (j >= col))
-            return;
-
+        }
         M[i][j] = value;
     }
 
@@ -176,6 +174,12 @@ public:
 
     void ColMulVal(MATRIX& M1, T value, unsigned int set_col)
     {
+        if (set_col > M1.col)
+        {
+            cout << "ColMulVal: Incorrext index" << endl;
+            return;
+        }
+
         for (int i = 0; i < M1.str; i++)
             M[i][0] += M1.GetMij(i, set_col) * value;
     }
@@ -205,7 +209,7 @@ public:
 
     void SubMatr(MATRIX& M1, unsigned int str_new, unsigned int col_new)
     {
-        if ((str > str_new) || (col > col_new) || (str_new == 0) || (col_new == 0))
+        if ((str < str_new) || (col < col_new))
         {
             cout << "SubMatr: Incorrect sizes" << endl;
             return;
@@ -252,7 +256,7 @@ public:
 
 void main()
 {
-    unsigned int str1, col1, str2, col2;
+    unsigned int str1, col1, str2, col2, str3, col3;
     long int seed;
     unsigned int start, time;
     char Line[100];
@@ -330,11 +334,13 @@ void main()
             case 1:
                 cout << "Enter seed for first matrix: ";
                 cin >> seed;
+
                 M1.RandVal(seed);
                 break;
             case 2:
                 cout << "Enter seed for second matrix: ";
                 cin >> seed;
+
                 M2.RandVal(seed);
                 break;
             default:
@@ -358,12 +364,14 @@ void main()
                 cout << "Enter values in line for first matrix: ";
                 cin.ignore();
                 cin.getline(Line, 100);
+
                 M1.FillMatr(Line);
                 break;
             case 2:
                 cout << "Enter values in line for second matrix: ";
                 cin.ignore();
                 cin.getline(Line, 100);
+
                 M2.FillMatr(Line);
                 break;
             default:
@@ -374,7 +382,7 @@ void main()
         case 3:
             int key_resize;
 
-            cout << "0 - Return" << endl << "1 - First matrix" << endl << "2 - Second matrix" << endl;
+            cout << "0 - Return" << endl << "1 - First matrix" << endl << "2 - Second matrix" << endl << "3 - Result matrix" << endl;
             cout << "Enter the action: ";
             cin >> key_resize;
             cout << endl;
@@ -386,12 +394,20 @@ void main()
             case 1:
                 cout << "Enter new sizes for first matrix: ";
                 cin >> str1 >> col1;
+
                 M1.MatrixResize(str1, col1);
                 break;
             case 2:
                 cout << "Enter new sizes for second matrix: ";
                 cin >> str2 >> col2;
+
                 M2.MatrixResize(str2, col2);
+                break;
+            case 3:
+                cout << "Enter new sizes for result matrix: ";
+                cin >> str3 >> col3;
+
+                M3.MatrixResize(str3, col3);
                 break;
             default:
                 cout << "Incorrect action number" << endl;
@@ -422,11 +438,13 @@ void main()
             case 1:
                 cout << "Enter value: ";
                 cin >> value;
+
                 M1.MatrMulVal(value);
                 break;
             case 2:
                 cout << "Enter value: ";
                 cin >> value;
+
                 M2.MatrMulVal(value);
                 break;
             default:
@@ -438,6 +456,7 @@ void main()
             start = clock();
             M3.MatrMulMatr(M1, M2);
             time = clock() - start;
+
             cout << time << endl;
             break;
         case 8:
@@ -449,7 +468,7 @@ void main()
             cin >> key_submatrix;
             cout << endl;
 
-            cout << "Enter the submatrix sizes:";
+            cout << "Enter the submatrix sizes: ";
             cin >> submatrix_str >> submatrix_col;
             cout << endl;
 
