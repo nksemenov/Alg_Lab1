@@ -298,7 +298,7 @@ void main()
     
     cout << time << endl;
     */
-    /*
+    
     int key;
     while (true)
     {
@@ -434,6 +434,40 @@ void main()
                 break;
             }
             break;
+        case 7:
+            start = clock();
+            M3.MatrMulMatr(M1, M2);
+            time = clock() - start;
+            cout << time << endl;
+            break;
+        case 8:
+            int key_submatrix;
+            unsigned int submatrix_str, submatrix_col;
+
+            cout << "0 - Return" << endl << "1 - Submatrix from first matrix" << endl << "2 - Submatrix from second matrix" << endl;
+            cout << "Enter the action: ";
+            cin >> key_submatrix;
+            cout << endl;
+
+            cout << "Enter the submatrix sizes:";
+            cin >> submatrix_str >> submatrix_col;
+            cout << endl;
+
+            switch (key_submatrix)
+            {
+            case 0:
+                break;
+            case 1:
+                M3.SubMatr(M1, submatrix_str, submatrix_col);
+                break;
+            case 2:
+                M3.SubMatr(M2, submatrix_str, submatrix_col);
+                break;
+            default:
+                cout << "Incorrect action number" << endl;
+                break;
+            }
+            break;
         case 9:
             int key_print;
 
@@ -465,10 +499,9 @@ void main()
                 break;
             }
             break;
-            break;
         default:
             cout << "Incorrect action number" << endl;
             break;
         }
-    }*/
+    }
 }
