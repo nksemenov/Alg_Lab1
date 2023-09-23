@@ -256,7 +256,7 @@ public:
 
 void main()
 {
-    unsigned int str1, col1, str2, col2, str3, col3;
+    unsigned int str1, col1, str2, col2, str3, col3, key;
     long int seed;
     unsigned int start, time;
     char Line[100];
@@ -270,40 +270,6 @@ void main()
     MATRIX<long int> M2(str2, col2);
     MATRIX<long int> M3(str1, col2);
     
-    /*
-    cout << "Enter seed for first matrix:";
-    cin >> seed;
-    
-    M1.RandVal(seed);
-        
-    cout << "Enter seed for second matrix:";
-    cin >> seed;
-    cout << endl;
-
-    M2.RandVal(seed);
-    
-    
-    cin.ignore();
-    cin.getline(Line, 100);
-    M1.FillMatr(Line);
-    cin.getline(Line, 100);
-    M2.FillMatr(Line);
-    
-
-    start = clock();
-    M3.MatrMulMatr(M1, M2);
-    time = clock() - start;
-    
-    
-    M1.Print("M1");
-    M2.Print("M2");
-    M3.Print("M3");
-    
-    
-    cout << time << endl;
-    */
-    
-    int key;
     while (true)
     {
         cout << endl;
