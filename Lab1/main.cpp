@@ -207,13 +207,34 @@ public:
         }
     }
 
-    void SubMatr(MATRIX& M1, unsigned int str_new, unsigned int col_new)
+    void MatrStrDel(unsigned int index)
     {
-        if ((str < str_new) || (col < col_new))
+        if (index > str)
         {
-            cout << "SubMatr: Incorrect sizes" << endl;
+            cout << "incorrect index";
             return;
         }
+
+        for (int i = index; i < str - 1; i++)
+            for (int j = 0; j < col; j++)
+                M[i][j] = M[i + 1][j];
+
+        delete[] M[str - 1];
+
+        str--;
+    }
+
+    void MatrColDel(unsigned int index)
+    {
+        MATRIX<long int>tmp(str, col);
+
+        for (int i = 0; i < str; i++)
+            for (int j = 0; j < col; j++)
+                tmp.SetMij(i, j, M[i][j]);
+
+        for (int i = 0; i < str; i++)
+            for (int j = index; j < col - 1; j++)
+                tmp.SetMij(i, j, tmp.GetMij(i, j + 1));
 
         if (col > 0)
             for (int i = 0; i < str; i++)
@@ -222,16 +243,59 @@ public:
         if (str > 0)
             delete[] M;
 
-        str = str_new;
-        col = col_new;
+        col--;
 
         M = (T**) new T * [str];
+
         for (int i = 0; i < str; i++)
-            M[i] = (T*) new T[col];
+            M[i] = (T*)new T * [col];
 
         for (int i = 0; i < str; i++)
             for (int j = 0; j < col; j++)
-                M[i][j] = M1.GetMij(i, j);
+                M[i][j] = tmp.GetMij(i, j);
+    }
+
+    void SubMatr(char* str_del, char* col_del)
+    {
+        unsigned int nul_str = 0, nul_col = 0; 
+        MATRIX<long int>tmp(str, col);
+
+        for (int i = 0; i < str; i++)
+            for (int j = 0; j < col; j++)
+                tmp.SetMij(i, j, M[i][j]);
+        
+        for (int i = 0; i < str; i++)
+            if (str_del[i] == '0')
+            {
+                tmp.MatrStrDel(i);
+                nul_str++;
+            }
+
+        for (int j = 0; j < col; j++)
+            if (col_del[j] == '0')
+            {
+                tmp.MatrColDel(j);
+                nul_col++;
+            }
+
+        if (col > 0)
+            for (int i = 0; i < str; i++)
+                delete[] M[i];
+
+        if (str > 0)
+            delete[] M;
+
+        str = str - nul_str;
+        col = col - nul_col;
+
+        M = (T**) new T * [str];
+
+        for (int i = 0; i < str; i++)
+            M[i] = (T*)new T * [col];
+
+        for (int i = 0; i < str; i++)
+            for (int j = 0; j < col; j++)
+                M[i][j] = tmp.GetMij(i, j);
     }
 
     void RandVal(long int seed)
@@ -427,26 +491,29 @@ void main()
             break;
         case 8:
             int key_submatrix;
-            unsigned int submatrix_str, submatrix_col;
+            char submatrix_str[100], submatrix_col[100];
 
             cout << "0 - Return" << endl << "1 - Submatrix from first matrix" << endl << "2 - Submatrix from second matrix" << endl;
             cout << "Enter the action: ";
             cin >> key_submatrix;
             cout << endl;
 
-            cout << "Enter the submatrix sizes: ";
-            cin >> submatrix_str >> submatrix_col;
-            cout << endl;
+            cout << "Enter the string of submatrix sizes: ";
+            cin.ignore();
+            cin.getline(submatrix_str, 100);
+
+            cout << "Enter the colum of submatrix sizes: ";
+            cin.getline(submatrix_col, 100);
 
             switch (key_submatrix)
             {
             case 0:
                 break;
             case 1:
-                M3.SubMatr(M1, submatrix_str, submatrix_col);
+                M1.SubMatr(submatrix_str, submatrix_col);
                 break;
             case 2:
-                M3.SubMatr(M2, submatrix_str, submatrix_col);
+                M2.SubMatr(submatrix_str, submatrix_col);
                 break;
             default:
                 cout << "Incorrect action number" << endl;
