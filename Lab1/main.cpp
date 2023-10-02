@@ -19,7 +19,13 @@ public:
 
     long int getNextRandomNumber()
     {
+        long int mask1 = (1 << 11);
+        long int mask2 = (1 << 12) - 1;
+
         seed = (a * seed + c) % m;
+
+        seed = seed | mask1;
+        seed = seed & mask2;
 
         return seed;
     }
@@ -193,7 +199,7 @@ public:
         }
 
         MATRIX<long int> tmp(M1.str, 1);
-        
+
         for (int j = 0; j < col; j++)
         {
             for (int i = 0; i < M1.str; i++)
