@@ -47,7 +47,7 @@ public:
         M = nullptr;
     }
 
-    
+
     MATRIX(unsigned int str_new, unsigned int col_new)
     {
         str = str_new;
@@ -62,7 +62,7 @@ public:
             for (int j = 0; j < col; j++)
                 M[i][j] = 0;
     }
-    
+
     void MatrixResize(unsigned int str_new, unsigned int col_new)
     {
         str = str_new;
@@ -118,7 +118,7 @@ public:
         unsigned int pnt = 0;
         long int tmp = 0;
         int p = 0, cnt = 0;
-        
+
         for (int i = 0; i < str; i++)
             for (int j = 0; j < col; j++)
             {
@@ -178,16 +178,10 @@ public:
                 M[i][j] *= value;
     }
 
-    void ColMulVal(MATRIX& M1, T value, unsigned int set_col)
+    void ColMulVal(MATRIX& M1, T value)
     {
-        if (set_col > M1.col)
-        {
-            cout << "ColMulVal: Incorrext index" << endl;
-            return;
-        }
-
         for (int i = 0; i < M1.str; i++)
-            M[i][0] += M1.GetMij(i, set_col) * value;
+            M[i][0] += M1.GetMij(i, 0) * value;
     }
 
     void MatrMulMatr(MATRIX& M1, MATRIX& M2)
@@ -198,18 +192,24 @@ public:
             return;
         }
 
-        MATRIX<long int> tmp(M1.str, 1);
+        MATRIX<long int> tmp1(M1.str, 1);
+        MATRIX<long int> tmp2(M1.str, 1);
 
         for (int j = 0; j < col; j++)
         {
             for (int i = 0; i < M1.str; i++)
-                tmp.SetMij(i, 0, 0);
+                tmp1.SetMij(i, 0, 0);
 
             for (int k = 0; k < M1.col; k++)
-                tmp.ColMulVal(M1, M2.GetMij(k, j), k);
+            {
+                for (int i = 0; i < M1.str; i++)
+                    tmp2.SetMij(i, 0, M1.GetMij(i, k));
+
+                tmp1.ColMulVal(tmp2, M2.GetMij(k, j));
+            }
 
             for (int i = 0; i < M1.str; i++)
-                M[i][j] = tmp.GetMij(i, 0);
+                M[i][j] = tmp1.GetMij(i, 0);
         }
     }
 
@@ -263,13 +263,27 @@ public:
 
     void SubMatr(char* str_del, char* col_del)
     {
-        unsigned int nul_str = 0, nul_col = 0; 
+        unsigned int nul_str = 0, nul_col = 0, p = 0, q = 0;
         MATRIX<long int>tmp(str, col);
+
+        while (str_del[p] != '\0')
+            p++;
+
+        while (col_del[p] != '\0')
+            q++;
+
+        for (int i = p; i < str; i++)
+            str_del[i] = '1';
+        str_del[str] = '\0';
+
+        for (int i = p; i < col; i++)
+            col_del[i] = '1';
+        col_del[str] = '\0';
 
         for (int i = 0; i < str; i++)
             for (int j = 0; j < col; j++)
                 tmp.SetMij(i, j, M[i][j]);
-        
+
         for (int i = 0; i < str; i++)
             if (str_del[i] == '0')
             {
@@ -330,7 +344,7 @@ void main()
     long int seed;
     unsigned int start, time;
     char Line[100];
-    
+
     cout << "Enter first matrix size: ";
     cin >> str1 >> col1;
     cout << "Enter second matrix size:";
@@ -339,7 +353,7 @@ void main()
     MATRIX<long int> M1(str1, col1);
     MATRIX<long int> M2(str2, col2);
     MATRIX<long int> M3(str1, col2);
-    
+
     while (true)
     {
         cout << endl;
@@ -357,7 +371,7 @@ void main()
             break;
         case 1:
             int key_random_fill;
-            
+
             cout << "0 - Return" << endl << "1 - First matrix" << endl << "2 - Second matrix" << endl;
             cout << "Enter the action: ";
             cin >> key_random_fill;
@@ -497,7 +511,7 @@ void main()
             break;
         case 8:
             int key_submatrix;
-            char submatrix_str[100], submatrix_col[100];
+            char submatrix_str[10000], submatrix_col[10000];
 
             cout << "0 - Return" << endl << "1 - Submatrix from first matrix" << endl << "2 - Submatrix from second matrix" << endl;
             cout << "Enter the action: ";
@@ -506,10 +520,10 @@ void main()
 
             cout << "Enter the string of submatrix sizes: ";
             cin.ignore();
-            cin.getline(submatrix_str, 100);
+            cin.getline(submatrix_str, 10000);
 
             cout << "Enter the colum of submatrix sizes: ";
-            cin.getline(submatrix_col, 100);
+            cin.getline(submatrix_col, 10000);
 
             switch (key_submatrix)
             {
